@@ -72,7 +72,7 @@ public class Car implements Serializable {
     public void setManufacturedYear(int manufacturedYear) {
         this.manufacturedYear = manufacturedYear;
     }
-    public void settopSpeedKmH(int topSpeedKmH) {
+    public void setTopSpeedKmH(int topSpeedKmH) {
         this.topSpeedKmH = topSpeedKmH;
     }
 

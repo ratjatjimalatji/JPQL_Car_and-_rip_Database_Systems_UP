@@ -12,7 +12,7 @@
       <TextField id="tfSearch" fx:id="tfSearch" layoutX="209.0" layoutY="53.0" promptText="Enter car reg number" />
       <Button fx:id="btnCreate" layoutX="14.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnCreateCar" text="Create car" />
       <Button fx:id="btnSearch" layoutX="32.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnSearchForCar" text="Search for car" />
-      <Button fx:id="btnUpdate" layoutX="227.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnUpdateCar" text="Update car details" />
+      <Button fx:id="btnUpdate" layoutX="227.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnUpdateCarDetails" text="Update car details" />
       <TextField id="tfregNumber" fx:id="tfRegistration" layoutX="99.0" layoutY="167.0" promptText="Registration number" />
       <TextField id="tfCarMake" fx:id="tfCarMake" layoutX="99.0" layoutY="208.0" promptText="Car make" />
       <TextField id="tfCarModel" fx:id="tfCarModel" layoutX="99.0" layoutY="252.0" promptText="Car model" />
