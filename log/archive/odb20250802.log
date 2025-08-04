@@ -1,0 +1,47 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-02 20:16:17 #1 store] 
+Database 'C:\Users\User\Downloads\JavaProjetcs\CarCrudJPQL\db\11.odb' is opened by 31180@DESKTOP-A7ROL3O
+
+[2025-08-02 20:16:17 #2 store] 
+Configuration path: ?
+
+[2025-08-02 20:16:17 #3 type] 
+Type Car is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-02 21:12:38 #1 store] 
+Database 'C:\Users\User\Downloads\JavaProjetcs\CarCrudJPQL\db\cars.odb' is opened by 32272@DESKTOP-A7ROL3O
+
+[2025-08-02 21:12:38 #2 store] 
+Configuration path: ?
+
+[2025-08-02 21:12:38 #3 type] 
+Type Car is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-02 21:16:13 #1 store] 
+Database 'C:\Users\User\Downloads\JavaProjetcs\CarCrudJPQL\db\cars.odb' has been recovered (tr. 1-3)
+
+[2025-08-02 21:16:13 #2 store] 
+Database 'C:\Users\User\Downloads\JavaProjetcs\CarCrudJPQL\db\cars.odb' is opened by 3584@DESKTOP-A7ROL3O
+
+[2025-08-02 21:16:13 #3 store] 
+Configuration path: ?
+
+[2025-08-02 21:16:13 #4 type] 
+Type Car is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-02 21:19:20 #1 store] 
+Database 'C:\Users\User\Downloads\JavaProjetcs\CarCrudJPQL\db\cars.odb' is opened by 30544@DESKTOP-A7ROL3O
+
+[2025-08-02 21:19:20 #2 store] 
+Configuration path: ?
+
+[2025-08-02 21:19:20 #3 type] 
+Type Car is not enhanced.
+
