@@ -1,18 +1,31 @@
-## Getting Started
+# Car Management System (ObjectDB CRUD Application) COS326 Database Systems 
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This Java application allows users to manage car details using a GUI and ObjectDB as the database. It demonstrates proficiency in OOBMS through the CRUD operations.
 
-## Folder Structure
+## Features
 
-The workspace contains two folders by default, where:
+* Add a vehicle with its details.
+* Search and display vehicle details based on the vehicle's registration number.
+* Update existing car details.
+* Delete car records using registration number.
+* Calculate and display the average top speed of all cars.
+* Exception handling and user feedback via GUI messages.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Requirements
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+* Java 8+
+* ObjectDB
+* NetBeans / IntelliJ / Eclipse (any Java IDE)
+* Java Swing or JavaFX
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Project Structure
 
-## Dependency Management
+1. **Entity Class (Car.java)**: Defines Car object with attributes, getters, and setters.
+2. **Main Application Class**: Handles GUI design and event listeners for CRUD operations.
+3. **Database Operations**: Methods for Create, Read, Update, Delete, and Average calculations using ObjectDB API.
+4. **GUI Feedback**: Confirmation and error messages shown through dialogs.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Usage
+
+* Feel free to clone this repository, make use of your preferred Java IDE.
+* Ensure that the JAR files that are contained in the ObjectDB's bin folder are correctly configured in project's library folder.
