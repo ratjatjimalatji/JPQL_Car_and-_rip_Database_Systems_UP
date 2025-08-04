@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
    <children>
@@ -21,7 +22,10 @@
       <TextArea id="tArea" fx:id="tArea" layoutX="263.0" layoutY="149.0" prefHeight="229.0" prefWidth="325.0" />
       <Button fx:id="btnDelete" layoutX="470.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnDeleteCar" text="Delete car " />
       <Label id="lblAvgSpeed" fx:id="lblAvgSpeed" layoutX="431.0" layoutY="57.0" text="Average car speed: xkm/h" />
-      <Label fx:id="lblError" layoutX="410.0" layoutY="383.0" />
+      <Label fx:id="lblError" layoutX="261.0" layoutY="383.0" prefHeight="17.0" prefWidth="7.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
       <Label id="lblCarStatus" layoutX="167.0" layoutY="355.0" />
       <Label layoutX="113.0" layoutY="85.0" text="Enter the vehicle's reg. number, if valid, select the 3 options below" textFill="#0e07ee" />
    </children>
