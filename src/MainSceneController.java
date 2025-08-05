@@ -11,25 +11,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 
 public class MainSceneController {
 
-        @FXML
+    @FXML
     private Button btnCreate;
-
     @FXML
     private Button btnDelete;
-
     @FXML
     private Button btnSearch;
-
     @FXML
     private Button btnUpdate;
-
+    @FXML
+    private Button btnCalcAvgSpeed;
     @FXML
     private TextField tfRegistration;
-
     @FXML
     private TextField tfCarMake;
     @FXML
@@ -38,12 +34,10 @@ public class MainSceneController {
     private TextField tfManuYear;
     @FXML
     private TextField tfTopSpeed;
-@FXML
+    @FXML
     private TextField tfSearch;
     @FXML
     private TextArea tArea;
-
-
     @FXML
     private Label lblAvgSpeed;
     @FXML
@@ -55,20 +49,23 @@ public class MainSceneController {
     private EntityManager em;
 
     public void initialize() {
-    emf = Persistence.createEntityManagerFactory("$objectdb/db/CarCrudPrac1.odb");
-    em = emf.createEntityManager();
-    
-        // Clear error label on startup
-        lblError.setVisible(false);
-        displayAverageSpeed();
+        emf = Persistence.createEntityManagerFactory("$objectdb/db/CarCrudPrac1.odb");
+        em = emf.createEntityManager();
+
+        lblAvgSpeed.setVisible(false);        
+        lblError.setVisible(false);// Clears error label on startup
         displayAllVehicles();
     }
 
+    @FXML
+    private void btnAverageSpeed() {
+        displayAverageSpeed();
+    }
+
     private void displayAverageSpeed() {
-        TypedQuery <Car> query = em.createQuery
-        ("SELECT AVG(c.topSpeedKmH) FROM Car c", Car.class);
-        lblAvgSpeed.setText("Average Speed: " + query.getSingleResult()+ "km/h");
-        
+        lblAvgSpeed.setVisible(true);
+        TypedQuery<Car> query = em.createQuery("SELECT AVG(c.topSpeedKmH) FROM Car c", Car.class);
+        lblAvgSpeed.setText("Average Speed: " + query.getSingleResult() + "km/h");
     }
 
     @FXML
@@ -80,13 +77,11 @@ public class MainSceneController {
     void createCar(ActionEvent event) {
         try {
             lblError.setVisible(false);
-            
             if (tfRegistration.getText().trim().isEmpty() ||
-                tfCarMake.getText().trim().isEmpty() ||
-                tfCarModel.getText().trim().isEmpty() ||
-                tfManuYear.getText().trim().isEmpty() ||
-                tfTopSpeed.getText().trim().isEmpty()) {
-                
+                    tfCarMake.getText().trim().isEmpty() ||
+                    tfCarModel.getText().trim().isEmpty() ||
+                    tfManuYear.getText().trim().isEmpty() ||
+                    tfTopSpeed.getText().trim().isEmpty()) {
                 showError("All fields are required!");
                 return;
             }
@@ -94,33 +89,33 @@ public class MainSceneController {
             String reg = tfRegistration.getText().trim();
             String make = tfCarMake.getText().trim();
             String model = tfCarModel.getText().trim();
-            
-            // Check if car exists
-            if (checkIfCarExists(reg)) {
-                showError("Car with this registration number already exists!");
+
+            // Check if car exists using the reg number
+            if (checkIfRegUsed(reg)) {
+                showError("A car with the entered registration number already exists!");
                 return;
             }
-            
+
             int year = Integer.parseInt(tfManuYear.getText().trim());
             int speed = Integer.parseInt(tfTopSpeed.getText().trim());
-            
+
             if (speed <= 0) {
                 showError("Top speed must be greater than 0!");
                 return;
             }
-
             Car car = new Car(reg, make, model, year, speed);
 
+            //Save the vehicle to the database
             em.getTransaction().begin();
             em.persist(car);
             em.getTransaction().commit();
 
             System.out.println("Car Saved Successfully: " + car);
             clearUserInput();
-            showSuccess(car.getCarMake() + " "+  car.getCarModel() + " was logged successfully!");
+            showSuccess(car.getCarMake() + " " + car.getCarModel() + " was logged successfully!");
             displayAverageSpeed(); // Update & display average speed
             displayAllVehicles();
-            
+
         } catch (NumberFormatException e) {
             showError("Please enter valid numbers for year and top speed!");
         } catch (Exception e) {
@@ -133,19 +128,18 @@ public class MainSceneController {
     }
 
     private void displayAllVehicles() {
-        TypedQuery <Car> query = em.createQuery
-        ("SELECT c FROM Car c", Car.class);
-        tArea.clear(); 
+        TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c", Car.class);
+        tArea.clear();
         List<Car> cars = query.getResultList();
         for (Car car : cars) {
             tArea.appendText(car.toString() + "\n");
         }
     }
 
-    // Helper method to check if car exists
-    private boolean checkIfCarExists(String registration) {
+    // Helper method to check if registration number has been used to log a different car
+    private boolean checkIfRegUsed(String registration) {
         TypedQuery<Car> query = em.createQuery(
-            "SELECT c FROM Car c WHERE c.registrationNumber = :reg", Car.class);
+                "SELECT c FROM Car c WHERE c.registrationNumber = :reg", Car.class);
         query.setParameter("reg", registration);
         return !query.getResultList().isEmpty();
     }
@@ -172,6 +166,7 @@ public class MainSceneController {
             emf.close();
         }
     }
+
     @FXML
     void btnDeleteCar(ActionEvent event) {
         deleteCar(event);
@@ -180,13 +175,12 @@ public class MainSceneController {
     private void deleteCar(ActionEvent event) {
         try {
             lblError.setVisible(false);
-            
+
             String reg = tfSearch.getText().trim();
             if (reg.isEmpty()) {
-                showError("Enter a registration number to delete!");
+                showError("Enter the registration number of the vehicle to be deleted!");
                 return;
             }
-
             TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c WHERE c.registrationNumber = :reg", Car.class);
             query.setParameter("reg", reg);
             List<Car> cars = query.getResultList();
@@ -195,13 +189,13 @@ public class MainSceneController {
                 showError("No car found with registration: " + reg);
             } else {
                 Car car = cars.get(0);
-                
+
                 em.getTransaction().begin();
                 em.remove(car);
                 em.getTransaction().commit();
-                
+
                 clearUserInput();
-                displayAverageSpeed();   // Update & display average speed
+                displayAverageSpeed();
                 displayAllVehicles();
                 showSuccess("Car deleted successfully!");
             }
@@ -212,7 +206,8 @@ public class MainSceneController {
             showError("Error deleting car: " + e.getMessage());
         }
     }
-@FXML
+
+    @FXML
     void btnUpdateCarDetails(ActionEvent event) {
         updateCarDetails(event);
     }
@@ -223,7 +218,7 @@ public class MainSceneController {
 
             String reg = tfRegistration.getText().trim();
             if (reg.isEmpty()) {
-                showError("Enter a registration number to update!");
+                showError("Enter the registration number of the vehicle to be updated!");
                 return;
             }
 
@@ -245,7 +240,7 @@ public class MainSceneController {
                 em.getTransaction().commit();
 
                 clearUserInput();
-                displayAverageSpeed();   // Update & display average speed
+                displayAverageSpeed();
                 displayAllVehicles();
                 showSuccess("Car details updated successfully!");
             }
@@ -276,12 +271,10 @@ public class MainSceneController {
     private void searchForCar(ActionEvent event) {
         try {
             lblError.setVisible(false);
-            
+
             String reg = tfSearch.getText().trim();
             if (reg.isEmpty()) {
-                lblError.setText("Please enter a registration number to search!");
-                lblError.setStyle("-fx-text-fill: red;");
-                lblError.setVisible(true);
+                showError("Please enter a registration number to search!");
                 return;
             }
 
@@ -290,14 +283,12 @@ public class MainSceneController {
             List<Car> cars = query.getResultList();
 
             if (cars.isEmpty()) {
-                lblError.setText("No car found with registration: " + reg);
-                lblError.setStyle("-fx-text-fill: red;");
-                lblError.setVisible(true);
+                showError("No car found with registration: " + reg);
                 clearUserInputExceptRegistration();
             } else {
                 lblError.setVisible(false);
                 Car car = cars.get(0);
-                
+
                 // Populate form fields with found car data
                 tfRegistration.setText(car.getRegistrationNumber());
                 tfCarMake.setText(car.getCarMake());
@@ -305,16 +296,10 @@ public class MainSceneController {
                 tfManuYear.setText(String.valueOf(car.getManufacturedYear()));
                 tfTopSpeed.setText(String.valueOf(car.gettopSpeedKmH()));
                 
-                System.out.println("Car found: " + car);
-                
-                lblError.setText("Car found successfully!");
-                lblError.setStyle("-fx-text-fill: green;");
-                lblError.setVisible(true);
+                showSuccess("Car found successfully!");
             }
         } catch (Exception e) {
-            lblError.setText("Error searching for car: " + e.getMessage());
-            lblError.setStyle("-fx-text-fill: red;");
-            lblError.setVisible(true);
+            showError("Error searching for car: " + e.getMessage());
             e.printStackTrace();
         }
     }
