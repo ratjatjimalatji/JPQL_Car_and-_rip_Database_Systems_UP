@@ -7,8 +7,13 @@ import javax.persistence.TypedQuery;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
@@ -66,6 +71,8 @@ public class MainSceneController {
         lblAvgSpeed.setVisible(true);
         TypedQuery<Car> query = em.createQuery("SELECT AVG(c.topSpeedKmH) FROM Car c", Car.class);
         lblAvgSpeed.setText("Average Speed: " + query.getSingleResult() + "km/h");
+
+      //  lblAvgSpeed.setText(String.format("Average Speed: %.sf km/h", query.getSingleResult()));
     }
 
     @FXML
@@ -89,6 +96,7 @@ public class MainSceneController {
             String reg = tfRegistration.getText().trim();
             String make = tfCarMake.getText().trim();
             String model = tfCarModel.getText().trim();
+            List <Trip> trips = null; // Assuming trips is not used in this context
 
             // Check if car exists using the reg number
             if (checkIfRegUsed(reg)) {
@@ -103,7 +111,7 @@ public class MainSceneController {
                 showError("Top speed must be greater than 0!");
                 return;
             }
-            Car car = new Car(reg, make, model, year, speed);
+            Car car = new Car(reg, make, model, year, speed, trips);
 
             //Save the vehicle to the database
             em.getTransaction().begin();
@@ -310,5 +318,20 @@ public class MainSceneController {
         tfCarModel.clear();
         tfManuYear.clear();
         tfTopSpeed.clear();
+    }
+
+    @FXML
+    void btnShowCreateVehiclePage (ActionEvent event){
+        System.out.println(".");
+    }
+public void switchToTripScene(ActionEvent event) throws Exception {
+        Parent scene2Parent = FXMLLoader.load(getClass().getResource("TripScene.fxml"));
+        Scene scene2 = new Scene(scene2Parent);
+
+        // Get the current stage
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        window.setScene(scene2);
+        window.show();
     }
 }

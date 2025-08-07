@@ -29,6 +29,9 @@
          </font></Label>
       <Label id="lblCarStatus" layoutX="167.0" layoutY="355.0" />
       <Label layoutX="113.0" layoutY="85.0" text="Enter the vehicle's reg. number, if valid, select the 3 options below" textFill="#0e07ee" />
+      <Button id="btnCreateVehicle"  fx:id="btnCreateVehicle"  layoutX="32.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnShowCreateVehiclePage" text="Create Vehicle" />
+      <Button id="btnCreateTripPage" fx:id="btnCreateTripPage" layoutX="32.0" layoutY="53.0" mnemonicParsing="false" onAction="#switchToTripScene" text="Create Trip" />
+      <AnchorPane layoutX="-310.0" layoutY="-258.0" prefHeight="244.0" prefWidth="930.0" />
       
    </children>
 </AnchorPane>

@@ -1,5 +1,8 @@
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,21 +15,25 @@ public class Car implements Serializable {
     @GeneratedValue
     private long id;
 
+    @OneToOne
     private String registrationNumber;
     private String carMake;
     private String carModel;
     private int manufacturedYear;
     private int topSpeedKmH;
 
+ @OneToMany(mappedBy = "carName", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> trips = new ArrayList<>();
     public Car() {
     }
 
-    Car(String rn, String cma, String cmo, int my, int tsk) {
+    Car(String rn, String cma, String cmo, int my, int tsk, List<Trip> trips) {
         this.registrationNumber = rn;
         this.carMake = cma;
         this.carModel = cmo;
         this.manufacturedYear = my;
         this.topSpeedKmH = tsk;
+        this.trips = trips;
     }
 
     // Getters
@@ -54,6 +61,10 @@ public class Car implements Serializable {
         return topSpeedKmH;
     }
 
+    public List<Trip> getTrips() {
+        return trips;
+    }
+
     // Setters
     public void setId(Long id) {
         this.id = id;
@@ -77,6 +88,9 @@ public class Car implements Serializable {
 
     public void setTopSpeedKmH(int topSpeedKmH) {
         this.topSpeedKmH = topSpeedKmH;
+    }
+    public void setTrips(List<Trip> trips){
+        this.trips = trips;
     }
 
     @Override

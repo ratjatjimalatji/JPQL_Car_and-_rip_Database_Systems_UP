@@ -6,16 +6,23 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "CarCrudJPQL_6f3e2b67"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
         },
         {
             "type": "java",
-            "name": "App",
+            "name": "App with JavaFX",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "CarCrudJPQL_8b6fc48b",
+            "projectName": "CarCrudJPQL_6f3e2b67",
             "vmArgs": "--module-path \"C:/Users/User/Downloads/javafx-sdk-24.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
