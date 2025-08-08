@@ -119,7 +119,7 @@ public class TripController {
         TypedQuery<Trip> query = em.createQuery("SELECT t from Trip t ", Trip.class);
         taTrip.clear();
         List<Trip> trips = query.getResultList();
-        for (Trip trip : trips) {
+        for (Trip _ : trips) {
             taTrip.appendText(trips.toString() + "\n");
         }
 
@@ -204,52 +204,7 @@ public class TripController {
 //         }
 //     }
 
-//     @FXML
-//     void btnUpdatetripDetails(ActionEvent event) {
-//         updatetripDetails(event);
-//     }
-
-//     private void updatetripDetails(ActionEvent event) {
-//         try {
-//             lblTripStatus.setVisible(false);
-
-//             String tripName = tfCarName.getText().trim();
-//             if (tripName.isEmpty()) {
-//                 showError("Enter the tripNameistration number of the vehicle to be updated!");
-//                 return;
-//             }
-
-//             TypedQuery<trip> query = em.createQuery("SELECT c FROM trip c WHERE c.tripNameistrationNumber = :tripName", trip.class);
-//             query.setParameter("tripName", tripName);
-//             List<trip> trips = query.getResultList();
-
-//             if (trips.isEmpty()) {
-//                 showError("No trip found with tripNameistration: " + tripName);
-//             } else {
-//                 trip trip = trips.get(0);
-
-//                 // Update trip details
-//                 em.getTransaction().begin();
-//                 trip.settrippickUp(tfPickUp.getText().trim());
-//                 trip.settripdestination(tfDistance.getText().trim());
-//                 trip.setManufacturedYear(Integer.parseInt(dpTripDate.getText().trim()));
-//                 trip.setTopSpeedKmH(Integer.parseInt(tfTopSpeed.getText().trim()));
-//                 em.getTransaction().commit();
-
-//                 clearUserInput();
-//                 displayAverageSpeed();
-//                 displayAllTrips();
-//                 showSuccess("trip details updated successfully!");
-//             }
-//         } catch (NumberFormatException e) {
-//             showError("Please enter valid numbers for year and top speed!");
-//         } catch (Exception e) {
-//             if (em.getTransaction().isActive()) {
-//                 em.getTransaction().rollback();
-//             }
-//             showError("Error updating trip details: " + e.getMessage());
-//         }
-//     }
+//     
 
     private void clearUserInput() {
         tfCarName.clear();
@@ -260,46 +215,44 @@ public class TripController {
         tfSearchCar.clear();
     }
 
-//     @FXML
-//     void btnSearchFortrip(ActionEvent event) {
-//         searchFortrip(event);
-//     }
+    @FXML
+    void btnSearchFortrip(ActionEvent event) {
+        searchFortrip(event);
+    }
 
-//     private void searchFortrip(ActionEvent event) {
-//         try {
-//             lblTripStatus.setVisible(false);
+    private void searchFortrip(ActionEvent event) {
+        try {
+            lblTripStatus.setVisible(false);
 
-//             String tripName = tfSearch.getText().trim();
-//             if (tripName.isEmpty()) {
-//                 showError("Please enter a tripNameistration number to search!");
-//                 return;
-//             }
+            String tripName = tfSearchCar.getText().trim();
+            if (tripName.isEmpty()) {
+                showError("Please enter the name of a car to complete the search!");
+                return;
+            }
 
-//             TypedQuery<trip> query = em.createQuery("SELECT c FROM trip c WHERE c.tripNameistrationNumber = :tripName", trip.class);
-//             query.setParameter("tripName", tripName);
-//             List<trip> trips = query.getResultList();
+            TypedQuery<Trip> query = em.createQuery("SELECT t from Trip t where t.carName =: carTripName", Trip.class);
+            query.setParameter("carTripName", tripName);
+            List<Trip> trips = query.getResultList();
 
-//             if (trips.isEmpty()) {
-//                 showError("No trip found with tripNameistration: " + tripName);
-//                 clearUserInputExcepttripNameistration();
-//             } else {
-//                 lblTripStatus.setVisible(false);
-//                 trip trip = trips.get(0);
+            if (trips.isEmpty()) {
+                showError("No trip found with car name: " + tripName);
+                clearUserInputExceptSearch();
+            } else {
+                lblTripStatus.setVisible(false);
+                Trip trip = trips.get(0);
 
-//                 // Populate form fields with found trip data
-//                 tfCarName.setText(trip.gettripNameistrationNumber());
-//                 tfPickUp.setText(trip.gettrippickUp());
-//                 tfDistance.setText(trip.gettripdestination());
-//                 dpTripDate.setText(String.valueOf(trip.getManufacturedYear()));
-//                 tfTopSpeed.setText(String.valueOf(trip.gettopSpeedKmH()));
-                
-//                 showSuccess("trip found successfully!");
-//             }
-//         } catch (Exception e) {
-//             showError("Error searching for trip: " + e.getMessage());
-//             e.printStackTrace();
-//         }
-//     }
+                // Populate form fields with found trip data
+                tfCarName.setText(trip.getCarName());
+                tfPickUp.setText(trip.getPickUplocation());
+                tfDestination.setText(trip.getDestinationLocation());
+                tfDistance.setText(String.valueOf(trip.getDistance()));
+                showSuccess("trip found successfully!");
+            }
+        } catch (Exception e) {
+            showError("Error searching for trip: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     private void clearUserInputExceptSearch() {
         tfCarName.clear();

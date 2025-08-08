@@ -92,6 +92,6 @@ public class Trip implements Serializable {
     public String toString() {
         return String.format(
                 "%s| %s: Trip from %S to %S (%.2f km's travelled)",
-                this.tripId, this.tripDate, this.pickUpLocation, this.destinationLocation, this.distance);
+                this.tripId, this.carName, this.pickUpLocation, this.destinationLocation, this.distance);
     }
 }

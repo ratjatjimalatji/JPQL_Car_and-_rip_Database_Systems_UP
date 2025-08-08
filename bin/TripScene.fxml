@@ -16,8 +16,8 @@
       <TextField fx:id="tfCarName" layoutX="31.0" layoutY="122.0" prefHeight="25.0" prefWidth="174.0" promptText="Enter car name" />
       <DatePicker fx:id="dpTripDate" layoutX="32.0" layoutY="291.0" />
 
-<TextField fx:id="tfSearchTrip" layoutX="142.0" layoutY="50.0" prefHeight="25.0" prefWidth="195.0" promptText="Search w/ car name" />
-      <Button fx:id="btnSearchTrips" layoutX="378.0" layoutY="52.0" mnemonicParsing="false" text="Search" />
+<TextField fx:id="tfSearchCar" layoutX="142.0" layoutY="50.0" prefHeight="25.0" prefWidth="195.0" promptText="Search w/ car name" />
+      <Button fx:id="btnSearchTrips" layoutX="378.0" layoutY="52.0" mnemonicParsing="false" onAction="#btnSearchFortrip" text="Search" />
 
       <Button fx:id="btnDeleteCar" layoutX="493.0" layoutY="51.0" mnemonicParsing="false" text="Delete Car" />
       <Label fx:id="lblTripStatus" layoutX="220.0" layoutY="359.0" text="Label" />
