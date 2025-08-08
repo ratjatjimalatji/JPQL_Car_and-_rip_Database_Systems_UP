@@ -30,11 +30,11 @@
          </font></Label>
       <Label id="lblCarStatus" layoutX="167.0" layoutY="357.0" />
       <Label layoutX="113.0" layoutY="87.0" text="Enter the vehicle's reg. number, if valid, select the 3 options below" textFill="#0e07ee" />
-      <Button id="btnCreateVehicle" fx:id="btnCreateVehicle" layoutY="1.0" mnemonicParsing="false" onAction="#btnShowCreateVehiclePage" prefHeight="25.0" prefWidth="302.0" text="Create Vehicle">
+      <Button id="btnCreateVehicle" fx:id="btnCreateVehicle" layoutY="1.0" mnemonicParsing="false" onAction="#btnShowCreateVehiclePage" prefHeight="25.0" prefWidth="302.0" text="ADD A VEHICLE" underline="true">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Button id="btnCreateTripPage" fx:id="btnCreateTripPage" layoutX="304.0" layoutY="1.0" mnemonicParsing="false" onAction="#switchToTripScene" prefHeight="25.0" prefWidth="302.0" text="Create Trip" />
+      <Button id="btnCreateTripPage" fx:id="btnCreateTripPage" layoutX="304.0" layoutY="1.0" mnemonicParsing="false" onAction="#switchToTripScene" prefHeight="25.0" prefWidth="302.0" text="ADD A TRIP" />
       <AnchorPane layoutX="-310.0" layoutY="-258.0" prefHeight="244.0" prefWidth="930.0" />
       
    </children>

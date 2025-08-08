@@ -74,7 +74,7 @@ public class TripController {
                 return;
             }
 
-            String carName = tfCarName.getText().trim();
+            String tripCarName = tfCarName.getText().trim();
             String pickUp = tfPickUp.getText().trim();
             String destination = tfDestination.getText().trim();
            Date date = java.sql.Date.valueOf(dpTripDate.getValue());
@@ -84,7 +84,13 @@ public class TripController {
                 showError("The distance travelled must be greater than 0!");
                 return;
             }
-            Trip trip = new Trip(carName, pickUp, destination, distance, date);
+
+             // Check if car exists using the reg number
+            if (!checkIfCarNameUsed(tripCarName)) {
+                showError("Select an existing car for your trip!");
+                return;
+            }
+            Trip trip = new Trip(tripCarName, pickUp, destination, distance, date);
             
 
             //Save the trip to the database
@@ -110,34 +116,30 @@ public class TripController {
     }
 
     private void displayAllTrips() {
-        TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t", Trip.class);
+        TypedQuery<Trip> query = em.createQuery("SELECT t from Trip t ", Trip.class);
         taTrip.clear();
         List<Trip> trips = query.getResultList();
         for (Trip trip : trips) {
-            taTrip.appendText(trip.toString() + "\n");
+            taTrip.appendText(trips.toString() + "\n");
         }
+
+        // Car car = new Car ();
+        // TypedQuery<Car> query = em.createQuery("SELECT c from Car c ", Car.class);
+        // taTrip.clear();
+        // List<Car> cars = query.getResultList();
+        // for (Car car : cars) {
+        //     taTrip.appendText(cars.toString() + "\n");
+        // }
     }
-   public void btnShowCreateVehiclePage(ActionEvent event) throws Exception{
-Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-        Scene scene2 = new Scene(scene2Parent);
 
-        // Get the current stage
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 
-        window.setScene(scene2);
-        window.show();
-   }
-    public void btnShowTripPage(){
-    
-   }
-
-//     // Helper method to check if tripNameistration number has been used to log a different trip
-//     private boolean checkIftripNameUsed(String tripNameistration) {
-//         TypedQuery<trip> query = em.createQuery(
-//                 "SELECT c FROM trip c WHERE c.tripNameistrationNumber = :tripName", trip.class);
-//         query.setParameter("tripName", tripNameistration);
-//         return !query.getResultList().isEmpty();
-//     }
+     // Helper method to check if car has been created
+    private boolean checkIfCarNameUsed(String x) {
+        TypedQuery<Trip> query = em.createQuery(
+                "SELECT t from Trip t WHERE t.carName =: tripCarName", Trip.class);
+        query.setParameter("carN", x);
+        return !query.getResultList().isEmpty();
+    }
 
     // Helper method to show error messages
     private void showError(String message) {
@@ -252,6 +254,7 @@ Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
     private void clearUserInput() {
         tfCarName.clear();
         tfPickUp.clear();
+        tfDestination.clear();
         tfDistance.clear();
         dpTripDate.setValue(null);
         tfSearchCar.clear();
@@ -306,10 +309,11 @@ Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         dpTripDate.setValue(null);
     }
 
-    public void btnShowCreateVehiclePage(){}
+    public void switchToTripScene(ActionEvent event) throws Exception {
+    }
 
-public void switchToTripScene(ActionEvent event) throws Exception {
-        Parent scene2Parent = FXMLLoader.load(getClass().getResource("TripScene.fxml"));
+public void btnShowCreateVehiclePage(ActionEvent event) throws Exception {
+        Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         Scene scene2 = new Scene(scene2Parent);
 
         // Get the current stage
