@@ -91,7 +91,7 @@ public class Trip implements Serializable {
 @Override
     public String toString() {
         return String.format(
-                "%s |%s: %s - %s ( %.2f)",
+                "%s| %s: Trip from %S to %S (%.2f km's travelled)",
                 this.tripId, this.tripDate, this.pickUpLocation, this.destinationLocation, this.distance);
     }
 }

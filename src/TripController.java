@@ -60,7 +60,7 @@ public class TripController {
         createTrip(event);
     }
 
-    @FXML
+    
     void createTrip(ActionEvent event) {
         try {
             lblTripStatus.setVisible(false);
@@ -93,13 +93,13 @@ public class TripController {
             em.getTransaction().commit();
 
             System.out.println("Trip saved Successfully: " + trip);
-            clearUserInput();
+            clearUserInputExceptSearch();
             showSuccess("Trip from " + trip.getPickUplocation() + " to " + trip.getDestinationLocation() + " was logged successfully!");
             
             displayAllTrips();
 
         } catch (NumberFormatException e) {
-            showError("Please enter valid numbers for year and top speed!");
+            showError("Please enter a valid number for distance!");
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
@@ -298,9 +298,10 @@ Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
 //         }
 //     }
 
-    private void clearUserInputExcepttripNameistration() {
+    private void clearUserInputExceptSearch() {
         tfCarName.clear();
         tfPickUp.clear();
+        tfDistance.clear();
         tfDestination.clear();
         dpTripDate.setValue(null);
     }
