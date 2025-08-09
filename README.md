@@ -5,7 +5,8 @@ This Java application allows users to manage car details using a GUI and ObjectD
 ## Features
 ## Vehicle management ## 
 
-### Add a vehicle: ### Add a new car by inputting its details like make, model, and registration number.
+### Add a vehicle: ### 
+Add a new car by inputting its details like make, model, top speed, year of manufacturing and registration number.
 <img width="607" height="428" alt="Add trip Delete" src="https://github.com/user-attachments/assets/08d33dd6-90e1-4418-b196-6db8e9a97971" />
 
 
@@ -14,20 +15,23 @@ Find a vehicle's details by searching for its unique registration number.
 <img width="605" height="448" alt="Add vehicle search" src="https://github.com/user-attachments/assets/83afceb6-9965-4b47-a31f-a94aa8af9965" />
 
 
-### Update vehicle: ### Modify existing details of a car, such as its top speed or model.
+### Update vehicle: ### 
+Modify the details of an existing car> Enter the car's registration number and the car's details are populated in the respective text fields, ready for easy updating.
 
 
-### Delete vehicle: ### Permanently remove a car's record from the system using its registration number.
+### Delete vehicle: ### 
+Permanently remove a car's record from the system using its registration number.
 
-### Calculate average top speed: ### Get the average top speed of all vehicles currently in the system.
+### Calculate average top speed: ### 
+Get the average top speed of all vehicles currently in the system.
 
-### Exception handling: ### Receive clear GUI messages for any errors or failed operations.
+### Exception handling: ### 
+Receive descriptive GUI messages for any errors, success or failed operations.
 
 ## Trip Management ## 
 
-
 ### Delete vehicle with trips: 
-Remove a vehicle and all of its corresponding trip logs simultaneously.
+Remove a vehicle and all of it's corresponding trip logs simultaneously.
 <img width="606" height="450" alt="Add Vehicle 2" src="https://github.com/user-attachments/assets/ea8f9f87-2085-4046-a8e1-dc58ccee6798" />
 
 ### Log a new trip: ###
