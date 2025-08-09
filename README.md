@@ -3,13 +3,39 @@
 This Java application allows users to manage car details using a GUI and ObjectDB as the database. It demonstrates proficiency in OOBMS through the CRUD operations.
 
 ## Features
+## Vehicle management ## 
 
-* Add a vehicle with its details.
-* Search and display vehicle details based on the vehicle's registration number.
-* Update existing car details.
-* Delete car records using registration number.
-* Calculate and display the average top speed of all cars.
-* Exception handling and user feedback via GUI messages.
+### Add a vehicle: ### Add a new car by inputting its details like make, model, and registration number.
+<img width="607" height="428" alt="Add trip Delete" src="https://github.com/user-attachments/assets/08d33dd6-90e1-4418-b196-6db8e9a97971" />
+
+
+### Search vehicle: ###
+Find a vehicle's details by searching for its unique registration number.
+<img width="605" height="448" alt="Add vehicle search" src="https://github.com/user-attachments/assets/83afceb6-9965-4b47-a31f-a94aa8af9965" />
+
+
+### Update vehicle: ### Modify existing details of a car, such as its top speed or model.
+
+
+### Delete vehicle: ### Permanently remove a car's record from the system using its registration number.
+
+### Calculate average top speed: ### Get the average top speed of all vehicles currently in the system.
+
+### Exception handling: ### Receive clear GUI messages for any errors or failed operations.
+
+## Trip Management ## 
+
+
+### Delete vehicle with trips: 
+Remove a vehicle and all of its corresponding trip logs simultaneously.
+<img width="606" height="450" alt="Add Vehicle 2" src="https://github.com/user-attachments/assets/ea8f9f87-2085-4046-a8e1-dc58ccee6798" />
+
+### Log a new trip: ###
+Select a vehicle and enter the details for a new journey, like distance and duration.
+<img width="607" height="432" alt="Add Trip search" src="https://github.com/user-attachments/assets/ff687cd5-155a-4906-b3c6-2ac51bdba6c4" />
+### Search for trips: ###
+Search for a car's trip history by entering its name or registration number.
+<img width="607" height="437" alt="Add trip options" src="https://github.com/user-attachments/assets/5334c3e7-54dc-4cb4-8912-20797a16ad0e" />
 
 ## Requirements
 
@@ -24,6 +50,11 @@ This Java application allows users to manage car details using a GUI and ObjectD
 2. **Main Application Class**: Handles GUI design and event listeners for CRUD operations.
 3. **Database Operations**: Methods for Create, Read, Update, Delete, and Average calculations using ObjectDB API.
 4. **GUI Feedback**: Confirmation and error messages shown through dialogs.
+
+   
+
+
+
 
 ## Usage
 
