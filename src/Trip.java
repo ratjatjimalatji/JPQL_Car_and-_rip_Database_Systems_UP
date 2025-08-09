@@ -19,12 +19,11 @@ public class Trip implements Serializable {
     String pickUpLocation;
     String destinationLocation;
     Double distance;
-
     Date tripDate;
 
     @ManyToOne
     @JoinColumn(name = "car_id")
-    private Car car;//
+    private Car car; //links each trip to a specific car 
 
     public Trip() {
     }
