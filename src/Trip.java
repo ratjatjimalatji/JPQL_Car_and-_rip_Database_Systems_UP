@@ -19,6 +19,7 @@ public class Trip implements Serializable {
     String pickUpLocation;
     String destinationLocation;
     Double distance;
+    
     Date tripDate;
 
     @ManyToOne

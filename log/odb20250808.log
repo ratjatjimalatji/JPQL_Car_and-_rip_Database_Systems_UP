@@ -326,3 +326,34 @@ Type Car is not enhanced.
 [2025-08-08 18:35:24 #4 type] 
 Type Trip is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-08 20:40:56 #1 store] 
+Database 'C:\Users\User\OneDrive\UP files\2nd semester NDP\COS326 Database Systems\Practicals\Practical 1\326Pactical 1\CarCrudJPQL\db\CarCrudPrac1.odb' is opened by 16604@DESKTOP-A7ROL3O
+
+[2025-08-08 20:40:56 #2 store] 
+Configuration path: ?
+
+[2025-08-08 20:40:57 #3 type] 
+Type Car is not enhanced.
+
+[2025-08-08 20:40:57 #4 type] 
+Type Trip is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2025-08-08 20:51:37 #1 store] 
+Database 'C:\Users\User\OneDrive\UP files\2nd semester NDP\COS326 Database Systems\Practicals\Practical 1\326Pactical 1\CarCrudJPQL\db\CarCrudPrac1.odb' has been recovered (tr. 28-28)
+
+[2025-08-08 20:51:37 #2 store] 
+Database 'C:\Users\User\OneDrive\UP files\2nd semester NDP\COS326 Database Systems\Practicals\Practical 1\326Pactical 1\CarCrudJPQL\db\CarCrudPrac1.odb' is opened by 29752@DESKTOP-A7ROL3O
+
+[2025-08-08 20:51:37 #3 store] 
+Configuration path: ?
+
+[2025-08-08 20:51:37 #4 type] 
+Type Car is not enhanced.
+
+[2025-08-08 20:51:37 #5 type] 
+Type Trip is not enhanced.
+
