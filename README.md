@@ -45,7 +45,7 @@ Search for a car's trip history by entering its name or registration number.
 
 * Java 8+
 * ObjectDB
-* NetBeans / IntelliJ / Eclipse (any Java IDE)
+* NetBeans / IntelliJ / VS Code (any Java IDE)
 * Java Swing or JavaFX
 
 ## Project Structure
