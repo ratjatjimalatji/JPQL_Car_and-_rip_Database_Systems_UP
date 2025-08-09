@@ -19,31 +19,31 @@ public class Trip implements Serializable {
     String pickUpLocation;
     String destinationLocation;
     Double distance;
-    
+
     Date tripDate;
 
     @ManyToOne
-    @JoinColumn(name = "registrationNumber")
-    String carName;
+    @JoinColumn(name = "car_id")
+    private Car car;//
 
     public Trip() {
     }
 
-    Trip(String cn, String pul, String dl, double dis, java.sql.Date date) {
-        this.carName = cn;
-        this.pickUpLocation = pul;
-        this.destinationLocation = dl;
-        this.distance = dis;
-        this.tripDate = date;
-        
+    Trip(Car car, String pickUpLocation, String destinationLocation, double distance, java.sql.Date tripDate) {
+        this.car = car;
+        this.pickUpLocation = pickUpLocation;
+        this.destinationLocation = destinationLocation;
+        this.distance = distance;
+        this.tripDate = tripDate;
+
     }
 
-    //Getters
+    // Getters
     public Long getTripId() {
         return (long) tripId;
     }
 
-    public String getPickUplocation() {
+    public String getPickUpLocation() {
         return pickUpLocation;
     }
 
@@ -55,16 +55,15 @@ public class Trip implements Serializable {
         return distance;
     }
 
-
     public Date getTripDate() {
         return tripDate;
     }
 
-    public String getCarName() {
-        return carName;
+    public Car getCar() {
+        return car;
     }
 
-    //Setters
+    // Setters
     public void setTripId(Long tripId) {
         this.tripId = tripId;
     }
@@ -85,14 +84,17 @@ public class Trip implements Serializable {
         this.tripDate = tripDate;
     }
 
-    public void setCarName(String carName) {
-        this.carName = carName;
+    public void setCar(Car car) {
+        this.car = car;
     }
-    //Prints trip details
-@Override
+
+    @Override
     public String toString() {
+        String carInfo = car != null
+                ? car.getCarMake() + " " + car.getCarModel() + " (" + car.getRegistrationNumber() + ")"
+                : "Unknown Car";
         return String.format(
-                "%s| %s: Trip from %S to %S (%.2f km's travelled)",
-                this.tripId, this.carName, this.pickUpLocation, this.destinationLocation, this.distance);
+                "%s:\n  %s: Trip from %S to %S (%.2f km's travelled)",
+                carInfo, this.tripId, this.pickUpLocation, this.destinationLocation, this.distance);
     }
 }

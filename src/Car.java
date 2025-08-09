@@ -13,17 +13,17 @@ public class Car implements Serializable {
     @Id
     // generate primary key value automatically
     @GeneratedValue
-    private long id;
+    private Long id;
 
-    @OneToOne
     private String registrationNumber;
     private String carMake;
     private String carModel;
     private int manufacturedYear;
     private int topSpeedKmH;
 
- @OneToMany(mappedBy = "carName", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Trip> trips = new ArrayList<>();
+
     public Car() {
     }
 
@@ -33,7 +33,7 @@ public class Car implements Serializable {
         this.carModel = cmo;
         this.manufacturedYear = my;
         this.topSpeedKmH = tsk;
-        this.trips = trips;
+        this.trips = null;
     }
 
     // Getters
@@ -89,8 +89,23 @@ public class Car implements Serializable {
     public void setTopSpeedKmH(int topSpeedKmH) {
         this.topSpeedKmH = topSpeedKmH;
     }
-    public void setTrips(List<Trip> trips){
+
+    public void setTrips(List<Trip> trips) {
         this.trips = trips;
+    }
+
+    public void addTrip(Trip trip) {
+        trips.add(trip);
+        trip.setCar(this);
+    }
+
+    public void removeTrip(Trip trip) {
+        trips.remove(trip);
+        trip.setCar(null);
+    }
+
+    public String getDisplayName() {
+        return carMake + " " + carModel + " (" + registrationNumber + ")";
     }
 
     @Override

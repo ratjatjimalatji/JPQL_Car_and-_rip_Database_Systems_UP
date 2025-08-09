@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -30,7 +31,8 @@ public class TripController {
     @FXML
     private TextField tfDistance;
     @FXML
-    private TextField tfCarName;
+    private ComboBox<String> cbCarSelection;
+
     @FXML
     private TextField tfPickUp;
     @FXML
@@ -43,16 +45,37 @@ public class TripController {
     private TextArea taTrip;
     @FXML
     private Label lblTripStatus;
+    @FXML
+    private Label lblSelectedCarInfo;
 
     private EntityManagerFactory emf;
     private EntityManager em;
+    private List<Car> availableCars;
 
     public void initialize() {
         emf = Persistence.createEntityManagerFactory("$objectdb/db/CarCrudPrac1.odb");
         em = emf.createEntityManager();
-    
+
         lblTripStatus.setVisible(false);
         displayAllTrips();
+        loadAvailableCars();
+    }
+
+    private void loadAvailableCars() {
+        TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c ORDER BY c.carMake, c.carModel", Car.class);
+        availableCars = query.getResultList();
+
+        cbCarSelection.getItems().clear();
+        for (Car car : availableCars) {
+            cbCarSelection.getItems().add(car.getDisplayName());
+        }
+    }
+
+    private Car findCarByDisplayName(String displayName) {
+        return availableCars.stream()
+                .filter(car -> car.getDisplayName().equals(displayName))
+                .findFirst()
+                .orElse(null);
     }
 
     @FXML
@@ -60,13 +83,13 @@ public class TripController {
         createTrip(event);
     }
 
-    
     void createTrip(ActionEvent event) {
         try {
             lblTripStatus.setVisible(false);
-            if (
-                tfCarName.getText().trim().isEmpty() ||
-                tfPickUp.getText().trim().isEmpty() ||
+
+            // Validate all fields
+            if (cbCarSelection.getValue() == null ||
+                    tfPickUp.getText().trim().isEmpty() ||
                     tfDestination.getText().trim().isEmpty() ||
                     tfDistance.getText().trim().isEmpty() ||
                     dpTripDate.getValue() == null) {
@@ -74,10 +97,16 @@ public class TripController {
                 return;
             }
 
-            String tripCarName = tfCarName.getText().trim();
+            // Get the selected car
+            Car selectedCar = findCarByDisplayName(cbCarSelection.getValue());
+            if (selectedCar == null) {
+                showError("Please select a valid car!");
+                return;
+            }
+
             String pickUp = tfPickUp.getText().trim();
             String destination = tfDestination.getText().trim();
-           Date date = java.sql.Date.valueOf(dpTripDate.getValue());
+            Date date = java.sql.Date.valueOf(dpTripDate.getValue());
 
             double distance = Double.parseDouble(tfDistance.getText().trim());
             if (distance <= 0) {
@@ -85,23 +114,19 @@ public class TripController {
                 return;
             }
 
-             // Check if car exists using the reg number
-            if (!checkIfCarNameUsed(tripCarName)) {
-                showError("Select an existing car for your trip!");
-                return;
-            }
-            Trip trip = new Trip(tripCarName, pickUp, destination, distance, date);
-            
+            // Create trip with proper Car entity reference
+            Trip trip = new Trip(selectedCar, pickUp, destination, distance, date);
 
-            //Save the trip to the database
+            // Save the trip to the database
             em.getTransaction().begin();
             em.persist(trip);
             em.getTransaction().commit();
 
             System.out.println("Trip saved Successfully: " + trip);
             clearUserInputExceptSearch();
-            showSuccess("Trip from " + trip.getPickUplocation() + " to " + trip.getDestinationLocation() + " was logged successfully!");
-            
+            showSuccess("Trip from " + trip.getPickUpLocation() + " to " + trip.getDestinationLocation()
+                    + " was logged successfully!");
+
             displayAllTrips();
 
         } catch (NumberFormatException e) {
@@ -116,29 +141,17 @@ public class TripController {
     }
 
     private void displayAllTrips() {
-        TypedQuery<Trip> query = em.createQuery("SELECT t from Trip t ", Trip.class);
+        TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t ORDER BY t.car ASC, t.tripDate DESC ", Trip.class);
         taTrip.clear();
         List<Trip> trips = query.getResultList();
-        for (Trip _ : trips) {
-            taTrip.appendText(trips.toString() + "\n");
+
+        if (trips.isEmpty()) {
+            taTrip.appendText("No trips found.\n");
+        } else {
+            for (Trip trip : trips) {
+                taTrip.appendText(trip.toString() + "\n");
+            }
         }
-
-        // Car car = new Car ();
-        // TypedQuery<Car> query = em.createQuery("SELECT c from Car c ", Car.class);
-        // taTrip.clear();
-        // List<Car> cars = query.getResultList();
-        // for (Car car : cars) {
-        //     taTrip.appendText(cars.toString() + "\n");
-        // }
-    }
-
-
-     // Helper method to check if car has been created
-    private boolean checkIfCarNameUsed(String x) {
-        TypedQuery<Trip> query = em.createQuery(
-                "SELECT t from Trip t WHERE t.carName =: tripCarName", Trip.class);
-        query.setParameter("carN", x);
-        return !query.getResultList().isEmpty();
     }
 
     // Helper method to show error messages
@@ -164,56 +177,49 @@ public class TripController {
         }
     }
 
-//     @FXML
-//     void btnDeletetrip(ActionEvent event) {
-//         deletetrip(event);
-//     }
+    // @FXML
+    // void btnDeletetrip(ActionEvent event) {
+    // deletetrip(event);
+    // }
 
-//     private void deletetrip(ActionEvent event) {
-//         try {
-//             lblTripStatus.setVisible(false);
+    // private void deletetrip(ActionEvent event) {
+    // try {
+    // lblTripStatus.setVisible(false);
 
-//             String tripName = tfSearch.getText().trim();
-//             if (tripName.isEmpty()) {
-//                 showError("Enter the tripNameistration number of the vehicle to be deleted!");
-//                 return;
-//             }
-//             TypedQuery<trip> query = em.createQuery("SELECT c FROM trip c WHERE c.tripNameistrationNumber = :tripName", trip.class);
-//             query.setParameter("tripName", tripName);
-//             List<trip> trips = query.getResultList();
+    // String tripName = tfSearch.getText().trim();
+    // if (tripName.isEmpty()) {
+    // showError("Enter the tripNameistration number of the vehicle to be
+    // deleted!");
+    // return;
+    // }
+    // TypedQuery<trip> query = em.createQuery("SELECT c FROM trip c WHERE
+    // c.tripNameistrationNumber = :tripName", trip.class);
+    // query.setParameter("tripName", tripName);
+    // List<trip> trips = query.getResultList();
 
-//             if (trips.isEmpty()) {
-//                 showError("No trip found with tripNameistration: " + tripName);
-//             } else {
-//                 trip trip = trips.get(0);
+    // if (trips.isEmpty()) {
+    // showError("No trip found with tripNameistration: " + tripName);
+    // } else {
+    // trip trip = trips.get(0);
 
-//                 em.getTransaction().begin();
-//                 em.remove(trip);
-//                 em.getTransaction().commit();
+    // em.getTransaction().begin();
+    // em.remove(trip);
+    // em.getTransaction().commit();
 
-//                 clearUserInput();
-//                 displayAverageSpeed();
-//                 displayAllTrips();
-//                 showSuccess("trip deleted successfully!");
-//             }
-//         } catch (Exception e) {
-//             if (em.getTransaction().isActive()) {
-//                 em.getTransaction().rollback();
-//             }
-//             showError("Error deleting trip: " + e.getMessage());
-//         }
-//     }
+    // clearUserInput();
+    // displayAverageSpeed();
+    // displayAllTrips();
+    // showSuccess("trip deleted successfully!");
+    // }
+    // } catch (Exception e) {
+    // if (em.getTransaction().isActive()) {
+    // em.getTransaction().rollback();
+    // }
+    // showError("Error deleting trip: " + e.getMessage());
+    // }
+    // }
 
-//     
-
-    private void clearUserInput() {
-        tfCarName.clear();
-        tfPickUp.clear();
-        tfDestination.clear();
-        tfDistance.clear();
-        dpTripDate.setValue(null);
-        tfSearchCar.clear();
-    }
+    //
 
     @FXML
     void btnSearchFortrip(ActionEvent event) {
@@ -224,38 +230,43 @@ public class TripController {
         try {
             lblTripStatus.setVisible(false);
 
-            String tripName = tfSearchCar.getText().trim();
-            if (tripName.isEmpty()) {
+            String searchText = tfSearchCar.getText().trim();
+            if (searchText.isEmpty()) {
                 showError("Please enter the name of a car to complete the search!");
                 return;
             }
 
-            TypedQuery<Trip> query = em.createQuery("SELECT t from Trip t where t.carName =: carTripName", Trip.class);
-            query.setParameter("carTripName", tripName);
+            TypedQuery<Trip> query = em.createQuery(
+                    "SELECT t FROM Trip t WHERE " +
+                            "t.car.registrationNumber LIKE :search OR " +
+                            "t.car.carMake LIKE :search OR " +
+                            "t.car.carModel LIKE :search " +
+                            "ORDER BY t.tripDate DESC",
+                    Trip.class);
+            query.setParameter("search", "%" + searchText + "%");
             List<Trip> trips = query.getResultList();
 
             if (trips.isEmpty()) {
-                showError("No trip found with car name: " + tripName);
+                showError("No trip found with car name: " + searchText);
+                taTrip.clear();
                 clearUserInputExceptSearch();
             } else {
-                lblTripStatus.setVisible(false);
-                Trip trip = trips.get(0);
+                taTrip.clear();
 
-                // Populate form fields with found trip data
-                tfCarName.setText(trip.getCarName());
-                tfPickUp.setText(trip.getPickUplocation());
-                tfDestination.setText(trip.getDestinationLocation());
-                tfDistance.setText(String.valueOf(trip.getDistance()));
-                showSuccess("trip found successfully!");
+                for (Trip trip : trips) {
+                    taTrip.appendText(trip.toString() + "\n");
+                }
+
+                showSuccess("Found " + trips.size() + " trip(s) for: " + searchText);
             }
         } catch (Exception e) {
-            showError("Error searching for trip: " + e.getMessage());
+            showError("Error searching for trips: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private void clearUserInputExceptSearch() {
-        tfCarName.clear();
+        cbCarSelection.setValue(null);
         tfPickUp.clear();
         tfDistance.clear();
         tfDestination.clear();
@@ -265,15 +276,15 @@ public class TripController {
     public void switchToTripScene(ActionEvent event) throws Exception {
     }
 
-public void btnShowCreateVehiclePage(ActionEvent event) throws Exception {
+    public void btnShowCreateVehiclePage(ActionEvent event) throws Exception {
         Parent scene2Parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         Scene scene2 = new Scene(scene2Parent);
 
         // Get the current stage
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(scene2);
         window.show();
     }
-// }
+    // }
 }
